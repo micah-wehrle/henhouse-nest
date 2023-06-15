@@ -6,12 +6,13 @@ export class WordsController {
 
   constructor(private wordsService: WordsService) {}
 
-  @Get('/daily')
-  getDailyData() {
+  @Get('/daily/:dayIndex')
+  getSpecificDailyData(@Param('dayIndex') dayIndex: string) {
+    const dailyWord = this.wordsService.getDailyWord(+dayIndex);
     return {
       success: true,
-      dailyWord: this.wordsService.getDailyWord(),
-      ransom: this.wordsService.getDailyRansom()
+      dailyWord,
+      ransom: this.wordsService.getDailyRansom(+dayIndex, dailyWord)
     }
   }
   
@@ -26,7 +27,7 @@ export class WordsController {
 
   @Get('/ransom/:seed')
   randomRansom(@Param('seed') seed: string) {
-    let seedAsNum;
+    let seedAsNum: number;
     if (seed && typeof seed === 'string' && seed.length > 0) {
       seedAsNum = +seed;
     }
@@ -36,7 +37,7 @@ export class WordsController {
 
     return {
       success: true,
-      ransom: this.wordsService.generateRansom(seedAsNum),
+      ransom: this.wordsService.generateRansom(seedAsNum, this.wordsService.getDailyWord(seedAsNum)),
     }
   }
 }
