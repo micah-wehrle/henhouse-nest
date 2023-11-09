@@ -1,5 +1,4 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { match } from 'assert';
 
 @Injectable()
 export class WordsService {
@@ -54,7 +53,10 @@ export class WordsService {
     const randArr = (array: string[]): string => {
       return array[ Math.floor( nextRand() * array.length ) ];
     }
-    let ransomText = `${randArr(intro)} ${randArr(postIntro)} {\\}. ${randArr(welcome)} ${randArr(missingLeadup)} ${randArr(itemAdjectives)} {\\} ${randArr(postItem)}, ${randArr(payLeadup)} ${Math.floor(nextRand()*500)+250} {\\\\} ${randArr(locationLeadup)} ${randArr(location)} {\\}. ${randArr(wrapup)}. ${randArr(consider)}:`.toLowerCase();
+
+    const lowNum = 10;
+    const highNum = 159 +1;
+    let ransomText = `${randArr(intro)} ${randArr(postIntro)} {\\}. ${randArr(welcome)} ${randArr(missingLeadup)} ${randArr(itemAdjectives)} {\\} ${randArr(postItem)}, ${randArr(payLeadup)} ${Math.floor(nextRand()*highNum)+lowNum} {\\\\} ${randArr(locationLeadup)} ${randArr(location)} {\\}. ${randArr(wrapup)}. ${randArr(consider)}:`.toLowerCase();
     // let ransomText = `${randArr(intro)} ${randArr(postIntro)} {\\}. ${randArr(welcome)} ${randArr(missingLeadup)} ${randArr(itemAdjectives)} {\\} ${randArr(postItem)}, ${randArr(payLeadup)} ${Math.floor(nextRand()*500)+250} {\\\\} ${randArr(locationLeadup)} ${randArr(location)} {\\}. ${randArr(wrapup)}. p.s. ${randArr(ps)} {\\}. ${randArr(consider)}:`.toLowerCase();
     
     const anyRandomWord = (nouns: {[key: string]: string[]}, plural?: boolean): string => {
@@ -122,6 +124,23 @@ export class WordsService {
     return ransomText;
   }
 
+  public getAnyNoun(seed: number): string {
+    let seedIndex = 0;
+    seed *= 67;
+    seed += 41;
+
+    const nextRand = (): number => {
+      seedIndex++;
+      const a = (seed + seedIndex) * 15485863;
+      const rand = (a * a * a % 2038074743) / 2038074743;
+
+      return rand;
+    }
+
+    const keys = Object.keys(this.globalNouns);
+    return this.globalNouns[ keys[Math.floor(nextRand()*keys.length)] ][ Math.floor(nextRand()*5) ];
+  }
+
   readonly globalNouns: {[key: string]: string[]} = {
     a: ['apple', 'rat', 'mountain', 'acorn', 'raindrop'],
     b: ['banana', 'orb', 'book', 'ear lobe', 'table'],
@@ -147,7 +166,7 @@ export class WordsService {
     v: ['volcano', 'glove', 'vase', 'oven', 'vulture'],
     w: ['watermelon', 'window', 'whistle', 'wagon', 'wheel'],
     x: ['xylophone', 'box', 'axel', 'axe', 'fox'],
-    y: ['yak', 'yellow', 'yo-yo', 'butterfly', 'yoghurt'],
+    y: ['yak', 'yoga mat', 'yo-yo', 'butterfly', 'yoghurt'],
     z: ['zebra', 'pizza', 'razor', 'maze', 'hazelnut']
   };
   
