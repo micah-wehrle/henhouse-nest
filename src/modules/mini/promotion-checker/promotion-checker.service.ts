@@ -55,7 +55,7 @@ export class PromotionCheckerService {
   }
 
   private loadPastChecks() {
-    const data: any = this.fileManager.readFile('test.txt', false);
+    const data: any = this.fileManager.readFile('promo-check-count.txt');
     if (data) {
       this.globalChecks += Number(data);
       this.lastCheck = this.globalChecks;
@@ -66,7 +66,7 @@ export class PromotionCheckerService {
   }
 
   private writeChecks() {
-    this.fileManager.writeFile('test.txt', `${this.globalChecks}`);
+    this.fileManager.writeFile('promo-check-count.txt', `${this.globalChecks}`);
   }
 }
 

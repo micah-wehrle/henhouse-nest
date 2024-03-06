@@ -3,9 +3,10 @@ import { FileManagerService } from 'src/global-services/file-manager/file-manage
 
 import { PromotionCheckerController } from './promotion-checker/promotion-checker.controller';
 import { PromotionCheckerService } from './promotion-checker/promotion-checker.service';
+import { FroggerController } from './frogger/frogger.controller';
 
 @Module({
-  controllers: [PromotionCheckerController],
+  controllers: [PromotionCheckerController, FroggerController],
   providers: [PromotionCheckerService, FileManagerService],
   exports: [FileManagerService]
 })

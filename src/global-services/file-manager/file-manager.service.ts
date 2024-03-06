@@ -6,22 +6,23 @@ import * as path from 'path';
 @Injectable()
 export class FileManagerService {
 
-  public readFile(file: string, createIfNull: boolean): string {
+  public readFile(file: string): string {
     const filePath = path.join(process.cwd(), file);
     const readFile = fs.readFileSync(filePath, 'utf-8');
-    if (!readFile) {
-      if (createIfNull) {
-        // Create new file and write 0
-      }
-      else {
-        return null;
-      }
-    }
     return readFile.toString();
   }
 
   public writeFile(file: string, data: string): void {
     const filePath = path.join(process.cwd(), file);
     fs.writeFile(filePath, data, "utf-8", ()=>{});
+  }
+
+  public fileExists(file: string): boolean {
+    try {
+      return !!fs.readFileSync(path.join(process.cwd(), file), 'utf-8');
+    }
+    catch(e) {
+      return false;
+    }
   }
 }

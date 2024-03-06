@@ -8,11 +8,11 @@ export class WordsController {
 
   @Get('/daily/:dayIndex')
   getSpecificDailyData(@Param('dayIndex') dayIndex: string) {
-    const dailyWord = this.wordsService.getDailyWord(+dayIndex);
+    const dailyWord = this.wordsService.getDailyWord(parseInt(dayIndex));
     return {
       success: true,
       dailyWord,
-      ransom: this.wordsService.getDailyRansom(+dayIndex, dailyWord)
+      ransom: this.wordsService.getDailyRansom(parseInt(dayIndex), dailyWord)
     }
   }
   
