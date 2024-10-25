@@ -4,7 +4,7 @@ import { Henhouse } from './modules/henhouse.module';
 async function bootstrap() {
   const app = await NestFactory.create(Henhouse);
   app.enableCors();
-  await app.listen(3001);
+  await app.listen(process.env.HENHOUSE_PORT || 3001);
 }
 
 bootstrap();
